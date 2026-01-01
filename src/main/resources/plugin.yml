@@ -1,0 +1,6 @@
+name: OnePlayerSleep
+version: 1.0.0
+main: com.ops.OnePlayerSleep
+api-version: 1.16
+author: OPS
+description: One player sleep plugin
