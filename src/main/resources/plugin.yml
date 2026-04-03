@@ -1,0 +1,25 @@
+name: OnePlayerSleep
+version: 3.6.4
+main: com.ops.OnePlayerSleep
+api-version: 1.16
+author: OPS
+description: One player sleep plugin
+
+commands:
+  oneplayersleep:
+    description: Toggle OnePlayerSleep on or off
+    permission: oneplayersleep.toggle
+
+permissions:
+  oneplayersleep.toggle:
+    description: Allows toggling OnePlayerSleep
+    default: op
+  oneplayersleep.reload:
+    description: Allows reloading the plugin configuration
+    default: op
+  oneplayersleep.*:
+    description: Grants all OnePlayerSleep permissions
+    default: op
+    children:
+      oneplayersleep.toggle: true
+      oneplayersleep.reload: true
