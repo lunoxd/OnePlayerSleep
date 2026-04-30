@@ -1,6 +1,6 @@
 # OnePlayerSleep
 
-Multi-version Minecraft plugin (1.16 - 1.21+) that skips night when any player enters a bed.
+Multi-version Minecraft plugin (1.16 - 1.21+) that skips night when any player enters a bed
 
 ## Build
 
