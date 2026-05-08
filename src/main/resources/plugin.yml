@@ -1,8 +1,9 @@
 name: OnePlayerSleep
-version: 3.6.4
+version: 4.0.1
 main: com.ops.OnePlayerSleep
 api-version: 1.16
-author: OPS
+folia-supported: true
+author: heyWaffie
 description: One player sleep plugin
 
 commands:

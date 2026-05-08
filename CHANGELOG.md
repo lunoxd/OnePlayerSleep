@@ -1,6 +1,6 @@
 # Changelog
 
-## [3.6.4] - 2026-01-02
+## [4.0.1] - 2026-01-02
 
 ### Changed
 - Night skip now uses vanilla Minecraft sleep timing (100 ticks / ~5 seconds delay)

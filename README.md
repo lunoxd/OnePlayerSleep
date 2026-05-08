@@ -8,7 +8,7 @@ Multi-version Minecraft plugin (1.16 - 1.21+) that skips night when any player e
 mvn clean package
 ```
 
-Output: `target/OnePlayerSleep-1.0.0.jar`
+Output: `builds/OnePlayerSleep-4.0.1.jar`
 
 ## Install
 
@@ -16,6 +16,8 @@ Place the JAR in your server's `plugins/` folder and restart.
 
 ## Compatibility
 
-- Minecraft 1.16.x - 1.21.11+
-- Paper/Spigot/Purpur servers
-- Safe reflection-based version handling
+- Paper 1.16+
+- Folia 1.21+
+- Lightweight reflection-based scheduling to keep the hot path simple
+
+Developer: heyWaffie

@@ -2,10 +2,10 @@
 
 ## 📖 Overview
 
-**OnePlayerSleep** is a lightweight, optimized Minecraft plugin that allows a single player to skip the night by sleeping, instead of requiring all players to sleep. Perfect for servers where players are spread across different areas or time zones.
+**OnePlayerSleep** is a lightweight, optimized Minecraft plugin that allows a single player to skip the night by sleeping, instead of requiring all players to sleep. It uses runtime scheduler detection so it stays simple on Paper and safe on Folia.
 
-**Version:** 3.6.2  
-**Author:** OPS  
+**Version:** 4.0.1  
+**Author:** heyWaffie  
 **License:** Not specified
 
 ---
@@ -20,7 +20,7 @@
 - 📊 **Message Controls** - Toggle broadcasts, command messages, console logs
 - ✨ **Aesthetic UI** - Beautiful colored console messages on startup/shutdown
 - 🚀 **Optimized Performance** - Message and config caching for minimal overhead
-- 🌐 **Multi-Version Support** - Works on Minecraft 1.16 through 1.21+
+- 🌐 **Multi-Version Support** - Paper 1.16+ and Folia 1.21+
 
 ---
 
@@ -401,4 +401,4 @@ Not specified. Please contact the author for licensing information.
 
 **Last Updated:** January 1, 2026  
 **Documentation Version:** 1.0  
-**Plugin Version:** 3.6.2
+**Plugin Version:** 4.0.1

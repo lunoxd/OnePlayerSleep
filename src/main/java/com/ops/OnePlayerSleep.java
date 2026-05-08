@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,19 +12,18 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class OnePlayerSleep extends JavaPlugin implements Listener, CommandExecutor {
-    // Server version info
+public class OnePlayerSleep extends JavaPlugin implements Listener {
     private String v;
-    private Method stormMethod;
-    private Method wakeupMethod;
-    private boolean useNewAPI;
-    
-    // Plugin state
+    private Method globalRegionSchedulerMethod;
+    private Method globalRegionExecuteMethod;
+    private Method entityGetSchedulerMethod;
+    private Method entityRunDelayedMethod;
+    private Method entityExecuteMethod;
+
     private boolean enabled = true;
     private String pluginName;
     private boolean weatherClearing;
-    
-    // Cached config values for performance
+
     private boolean showNightSkip;
     private boolean showToggleMsgs;
     private boolean consoleLogging;
@@ -40,25 +38,21 @@ public class OnePlayerSleep extends JavaPlugin implements Listener, CommandExecu
 
     @Override
     public void onEnable() {
-        // Save default config if not exists
         saveDefaultConfig();
-        
-        // Load plugin name and settings from config
         loadConfig();
-        
+        detectSchedulers();
+
         v = Bukkit.getVersion();
-        d();
         getServer().getPluginManager().registerEvents(this, this);
-        this.getCommand("oneplayersleep").setExecutor(this);
-        
-        // Aesthetic startup logging
+        java.util.Objects.requireNonNull(getCommand("oneplayersleep"), "oneplayersleep command missing").setExecutor(this);
+
         if (consoleLogging) {
             log("");
             log("§b╔══════════════════════════════════════════════════╗");
             log("§b║                                                  §b║");
-            log("§b║    §f⭐ §e" + pluginName + " §6v3.6.4 §f⭐                §b║");
+            log("§b║    §f⭐ §e" + pluginName + " §6v4.0.1 §f⭐                §b║");
             log("§b║                                                  §b║");
-            log("§b║    §7Author: §fOPS                                §b║");
+            log("§b║    §7Author: §fheyWaffie                           §b║");
             log("§b║    §7Server: §f" + v.substring(0, Math.min(v.length(), 20)) + "              §b║");
             log("§b║                                                  §b║");
             log("§b╠══════════════════════════════════════════════════╣");
@@ -85,13 +79,11 @@ public class OnePlayerSleep extends JavaPlugin implements Listener, CommandExecu
         pluginName = getConfig().getString("plugin-name", "OnePlayerSleep");
         enabled = getConfig().getBoolean("enabled-on-startup", true);
         weatherClearing = getConfig().getBoolean("weather-clear", false);
-        
-        // Cache message settings for performance
+
         showNightSkip = getConfig().getBoolean("message-settings.show-night-skip", true);
         showToggleMsgs = getConfig().getBoolean("message-settings.show-toggle-messages", true);
         consoleLogging = getConfig().getBoolean("message-settings.console-logging", true);
-        
-        // Cache all messages with colors pre-processed
+
         nightSkipMsg = formatMsg("night-skipped");
         enabledMsg = formatMsg("plugin-enabled");
         disabledMsg = formatMsg("plugin-disabled");
@@ -101,9 +93,32 @@ public class OnePlayerSleep extends JavaPlugin implements Listener, CommandExecu
         statusDisabledMsg = formatMsg("status-disabled");
         usageMsg = formatMsg("usage");
     }
+
+    private void detectSchedulers() {
+        try {
+            globalRegionSchedulerMethod = Bukkit.class.getMethod("getGlobalRegionScheduler");
+            Object scheduler = globalRegionSchedulerMethod.invoke(null);
+            globalRegionExecuteMethod = scheduler.getClass().getMethod("execute", org.bukkit.plugin.Plugin.class, Runnable.class);
+        } catch (ReflectiveOperationException ignored) {
+            globalRegionSchedulerMethod = null;
+            globalRegionExecuteMethod = null;
+        }
+
+        try {
+            entityGetSchedulerMethod = Player.class.getMethod("getScheduler");
+            Class<?> schedulerType = entityGetSchedulerMethod.getReturnType();
+            entityRunDelayedMethod = schedulerType.getMethod("runDelayed", org.bukkit.plugin.Plugin.class, Runnable.class, Runnable.class, long.class);
+            entityExecuteMethod = schedulerType.getMethod("execute", org.bukkit.plugin.Plugin.class, Runnable.class, Runnable.class);
+        } catch (ReflectiveOperationException | RuntimeException ignored) {
+            entityGetSchedulerMethod = null;
+            entityRunDelayedMethod = null;
+            entityExecuteMethod = null;
+        }
+    }
     
     private String formatMsg(String path) {
-        return getConfig().getString("messages." + path, "")
+        String message = getConfig().getString("messages." + path, "");
+        return (message == null ? "" : message)
                 .replace("%plugin%", pluginName)
                 .replace("&", "§");
     }
@@ -114,7 +129,7 @@ public class OnePlayerSleep extends JavaPlugin implements Listener, CommandExecu
             log("");
             log("§c╔══════════════════════════════════════════════════╗");
             log("§c║                                                  §c║");
-            log("§c║    §e⭐ §6" + pluginName + " §cv3.6.4 - §4Shutting Down §e⭐  §c║");
+            log("§c║    §e⭐ §6" + pluginName + " §cv4.0.1 - §4Shutting Down §e⭐  §c║");
             log("§c║                                                  §c║");
             log("§c╠══════════════════════════════════════════════════╣");
             log("§c║                                                  §c║");
@@ -126,35 +141,6 @@ public class OnePlayerSleep extends JavaPlugin implements Listener, CommandExecu
         }
     }
     
-    private void d() {
-        // Detect server version for API compatibility
-        try {
-            String p = Bukkit.getServer().getClass().getPackage().getName();
-            String[] s = p.split("\\.");
-            if (s.length >= 4) {
-                String ver = s[3];
-                useNewAPI = !ver.startsWith("v1_16") && !ver.startsWith("v1_17") && !ver.startsWith("v1_18");
-            } else {
-                useNewAPI = true;
-            }
-        } catch (Exception e) {
-            useNewAPI = true;
-        }
-
-        // Cache reflection methods for performance
-        try {
-            stormMethod = World.class.getMethod("setStorm", boolean.class);
-        } catch (Exception e) {
-            stormMethod = null;
-        }
-        
-        try {
-            wakeupMethod = Player.class.getMethod("wakeup", boolean.class);
-        } catch (Exception e) {
-            wakeupMethod = null;
-        }
-    }
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
@@ -168,34 +154,44 @@ public class OnePlayerSleep extends JavaPlugin implements Listener, CommandExecu
         }
 
         String subCmd = args[0].toLowerCase();
-        
-        if (subCmd.equals("reload")) {
-            if (!sender.hasPermission("oneplayersleep.reload")) {
-                sender.sendMessage(noPermMsg);
+
+        switch (subCmd) {
+            case "reload" -> {
+                if (!sender.hasPermission("oneplayersleep.reload")) {
+                    sender.sendMessage(noPermMsg);
+                    return true;
+                }
+                reloadConfig();
+                loadConfig();
+                sender.sendMessage(reloadedMsg);
                 return true;
             }
-            reloadConfig();
-            loadConfig();
-            sender.sendMessage(reloadedMsg);
-            return true;
-        }
-        
-        if (!sender.hasPermission("oneplayersleep.toggle")) {
-            sender.sendMessage(noPermMsg);
-            return true;
-        }
-
-        if (subCmd.equals("enable")) {
-            enabled = true;
-            if (showToggleMsgs) sender.sendMessage(enabledMsg);
-            return true;
-        } else if (subCmd.equals("disable")) {
-            enabled = false;
-            if (showToggleMsgs) sender.sendMessage(disabledMsg);
-            return true;
-        } else {
-            sender.sendMessage(usageMsg);
-            return true;
+            case "enable" -> {
+                if (!sender.hasPermission("oneplayersleep.toggle")) {
+                    sender.sendMessage(noPermMsg);
+                    return true;
+                }
+                enabled = true;
+                if (showToggleMsgs) sender.sendMessage(enabledMsg);
+                return true;
+            }
+            case "disable" -> {
+                if (!sender.hasPermission("oneplayersleep.toggle")) {
+                    sender.sendMessage(noPermMsg);
+                    return true;
+                }
+                enabled = false;
+                if (showToggleMsgs) sender.sendMessage(disabledMsg);
+                return true;
+            }
+            default -> {
+                if (!sender.hasPermission("oneplayersleep.toggle")) {
+                    sender.sendMessage(noPermMsg);
+                    return true;
+                }
+                sender.sendMessage(usageMsg);
+                return true;
+            }
         }
     }
 
@@ -203,49 +199,88 @@ public class OnePlayerSleep extends JavaPlugin implements Listener, CommandExecu
     public void onBed(PlayerBedEnterEvent e) {
         if (!enabled || e.isCancelled()) return;
 
-        // Check bed enter result for newer versions
-        if (useNewAPI && e.getBedEnterResult() != PlayerBedEnterEvent.BedEnterResult.OK) return;
+        if (e.getBedEnterResult() != PlayerBedEnterEvent.BedEnterResult.OK) return;
 
         Player p = e.getPlayer();
         World w = p.getWorld();
 
-        // Check if it's night time in overworld
         if (!isNightInOverworld(w)) return;
 
-        Bukkit.getScheduler().runTaskLater(this, () -> {
+        runLaterForPlayer(p, () -> {
             if (!p.isSleeping()) return;
 
-            w.setTime(0);
-            
-            if (weatherClearing) {
-                w.setStorm(false);
-                w.setThundering(false);
-                if (stormMethod != null) {
-                    try {
-                        stormMethod.invoke(w, false);
-                    } catch (Exception ignored) {}
-                }
-            }
+            runGlobal(() -> {
+                w.setTime(0);
 
-            for (Player pl : w.getPlayers()) {
-                if (pl.isSleeping()) {
-                    if (wakeupMethod != null) {
-                        try {
-                            wakeupMethod.invoke(pl, false);
-                        } catch (Exception ignored) {
-                            pl.damage(0);
-                        }
-                    } else {
-                        pl.damage(0);
+                if (weatherClearing) {
+                    w.setStorm(false);
+                    w.setThundering(false);
+                }
+
+                for (Player pl : w.getPlayers()) {
+                    if (pl.isSleeping()) {
+                        wakeupPlayer(pl);
                     }
                 }
-            }
 
-            if (showNightSkip) {
-                String msg = nightSkipMsg.replace("%player%", p.getName());
-                w.getPlayers().forEach(pl -> pl.sendMessage(msg));
-            }
+                if (showNightSkip) {
+                    String msg = nightSkipMsg.replace("%player%", p.getName());
+                    w.getPlayers().forEach(pl -> pl.sendMessage(msg));
+                }
+            });
         }, 100L);
+    }
+
+    private void runLaterForPlayer(Player player, Runnable task, long delayTicks) {
+        if (entityGetSchedulerMethod != null && entityRunDelayedMethod != null) {
+            try {
+                Object scheduler = entityGetSchedulerMethod.invoke(player);
+                if (scheduler != null) {
+                    entityRunDelayedMethod.invoke(scheduler, this, task, null, delayTicks);
+                    return;
+                }
+            } catch (ReflectiveOperationException ignored) {
+                // Fall back to the standard scheduler.
+            }
+        }
+
+        Bukkit.getScheduler().runTaskLater(this, task, delayTicks);
+    }
+
+    private void runGlobal(Runnable task) {
+        if (globalRegionSchedulerMethod != null && globalRegionExecuteMethod != null) {
+            try {
+                Object scheduler = globalRegionSchedulerMethod.invoke(null);
+                globalRegionExecuteMethod.invoke(scheduler, this, task);
+                return;
+            } catch (ReflectiveOperationException ignored) {
+                // Fall back to the standard scheduler.
+            }
+        }
+
+        task.run();
+    }
+
+    private void wakeupPlayer(Player player) {
+        if (entityGetSchedulerMethod != null && entityExecuteMethod != null) {
+            try {
+                Object scheduler = entityGetSchedulerMethod.invoke(player);
+                if (scheduler != null) {
+                    Boolean scheduled = (Boolean) entityExecuteMethod.invoke(scheduler, this, (Runnable) () -> {
+                        if (player.isSleeping()) {
+                            player.wakeup(false);
+                        }
+                    }, null);
+                    if (Boolean.TRUE.equals(scheduled)) {
+                        return;
+                    }
+                }
+            } catch (ReflectiveOperationException ignored) {
+                // Fall through to direct wakeup on non-Folia servers.
+            }
+        }
+
+        player.wakeup(false);
     }
 
     private boolean isNightInOverworld(World w) {

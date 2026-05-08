@@ -6,7 +6,7 @@
 
     <groupId>com.ops</groupId>
     <artifactId>OnePlayerSleep</artifactId>
-    <version>3.6.4</version>
+    <version>4.0.1</version>
     <packaging>jar</packaging>
 
     <properties>
