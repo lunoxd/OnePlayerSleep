@@ -1,4 +1,4 @@
-## <img src="https://cdn.discordapp.com/emojis/1510277602986950656.webp?size=64&animated=true" width="24"> One Player Sleep+ • 50K Downloads on Modrinth   <img src="https://cdn.discordapp.com/emojis/1478751551425085490.webp?size=64&animated=true" width="24">
+## <img src="https://cdn.discordapp.com/emojis/1510277602986950656.webp?size=64&animated=true" width="24"> One Player Sleep+ • 50K Downloads on [Modrinth](https://modrinth.com/project/RfE1BSdK) <img src="https://cdn.discordapp.com/emojis/1478751551425085490.webp?size=64&animated=true" width="24">
 
 <p>
   <img src="https://cdn.discordapp.com/emojis/1510275681597001778.webp?size=64" width="18"> <strong>Version:</strong> 4.0.1 (8 May 2026)
