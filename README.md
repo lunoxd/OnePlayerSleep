@@ -1,6 +1,7 @@
 **Version:** 4.0.1 (8 May 2026) | **Author:** LunoX2 | **License:** MIT
 ![Why is One Player Sleep](https://cdn.modrinth.com/data/cached_images/8788d344a42533aae1197a6c998a757a6b7876b9.png)
 
+# 50K Downloads on Modrinth https://cdn.discordapp.com/emojis/1222721374079156264.webp?size=64
 
 A lightweight, optimized Minecraft plugin that allows a single player to skip the night by sleeping, without requiring all online players to sleep. Ideal for servers where players are spread across different areas or time zones.
 
