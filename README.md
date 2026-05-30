@@ -1,7 +1,4 @@
-**Version:** 4.0.1 (8 May 2026) | **Author:** heyWaffie | **License:** MIT
-## Don't Forget to Join Discord Server (Custom Plugins/Community)
-[![Join Discord Server](https://cdn.modrinth.com/data/cached_images/6f95f689d188cb3c14f2be716a128feb62c3c5a4.png)](https://discord.gg/z2pPkb9tjX)
-
+**Version:** 4.0.1 (8 May 2026) | **Author:** LunoX2 | **License:** MIT
 ![Why is One Player Sleep](https://cdn.modrinth.com/data/cached_images/8788d344a42533aae1197a6c998a757a6b7876b9.png)
 
 
