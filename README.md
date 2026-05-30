@@ -17,7 +17,7 @@
 
 <p>
   <img src="https://cdn.discordapp.com/emojis/1486031096926703867.webp?size=64" width="18"> One player can skip the night<br>
-  <img src="https://cdn.discordapp.com/emojis/1486030958783234228.webp?size=64" width="18"> Optional weather clearing<br>
+  <img src="https://cdn.discordapp.com/emojis/1486030958783234228.webp?size=64" width="18"> No Setup Needed<br>
   <img src="https://cdn.discordapp.com/emojis/1486030993310879865.webp?size=64" width="18"> Fully customizable messages<br>
   <img src="https://cdn.discordapp.com/emojis/1486031032145809479.webp?size=64" width="18"> Lightweight and optimized<br>
   <img src="https://cdn.discordapp.com/emojis/1486031143202586824.webp?size=64" width="18"> Supports Minecraft 1.16–1.21+
