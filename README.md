@@ -1,6 +1,6 @@
 <h2>
   <img src="https://cdn.discordapp.com/emojis/1510277602986950656.webp?size=64&animated=true" width="24">
-  One Player Sleep+ • 50K Downloads on <a href="https://modrinth.com/project/RfE1BSdK">Modrinth</a>
+  One Player Sleep+ • 80K Downloads on <a href="https://modrinth.com/project/RfE1BSdK">Modrinth</a>
   <img src="https://cdn.discordapp.com/emojis/1478751551425085490.webp?size=64&animated=true" width="24">
 </h2>
 
