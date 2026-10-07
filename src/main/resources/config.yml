@@ -1,37 +1,105 @@
-# OnePlayerSleep Configuration
-# Customize your plugin settings here
+# ==============================================================================
+#                  OnePlayerSleep - Configuration Guide
+# ==============================================================================
+#
+# Welcome to the OnePlayerSleep configuration file!
+# Everything is customizable below. You do not need to restart your server
+# after editing this file; simply run: /oneplayersleep reload
+#
+# ==============================================================================
+# [PERMISSIONS & LUCKPERMS QUICK GUIDE]
+# ==============================================================================
+#
+# Permissions:
+#   - oneplayersleep.toggle  - Allows toggling plugin, messages & weather clear
+#   - oneplayersleep.reload  - Allows reloading configuration (/oneplayersleep reload)
+#   - oneplayersleep.*       - Grants all OnePlayerSleep permissions (Default: OP)
+#
+# LuckPerms Commands:
+#   - Give permission to a specific player:
+#       /lp user <player> permission set oneplayersleep.toggle true
+#
+#   - Give permission to an admin/mod group:
+#       /lp group admin permission set oneplayersleep.* true
+#
+# ==============================================================================
+# [COMMANDS CHEATSHEET]
+# ==============================================================================
+#
+#   - /oneplayersleep                  - View current plugin status and help
+#   - /oneplayersleep enable           - Turn OnePlayerSleep ON
+#   - /oneplayersleep disable          - Turn OnePlayerSleep OFF
+#   - /oneplayersleep msg <on|off>     - Toggle night-skip broadcast messages
+#   - /oneplayersleep weather <on|off> - Toggle weather clearing when skipping night
+#   - /oneplayersleep reload           - Reload this config.yml instantly
+#
+# ==============================================================================
+# [COLOR CODES & PLACEHOLDERS]
+# ==============================================================================
+#
+# Placeholders:
+#   - %player%          - Player's username (e.g., Steve)
+#   - %displayname%     - Player's formatted nickname / display name
+#   - %plugin%          - Custom plugin display name set below
+#   - %world%           - Name of the world where night was skipped
+#   - %messages_status% - ON or OFF for broadcast messages
+#   - %weather_status%  - ON or OFF for weather clearing
+#
+# Color Codes:
+#   &0 (Black)        &1 (Dark Blue)   &2 (Dark Green)  &3 (Dark Aqua)
+#   &4 (Dark Red)      &5 (Dark Purple) &6 (Gold)        &7 (Gray)
+#   &8 (Dark Gray)     &9 (Blue)        &a (Green)       &b (Aqua)
+#   &c (Red)           &d (Light Purple)&e (Yellow)      &f (White)
+#   &l (Bold)          &o (Italic)      &n (Underline)   &r (Reset)
+#
+# ==============================================================================
 
-# Plugin Display Name
-# Change this to match your server name (e.g., GlaceSleep, DreamSleep, etc.)
+# Custom Plugin Display Name (used in %plugin% placeholder & console logs)
 plugin-name: "OnePlayerSleep"
 
-# Enable/Disable plugin on startup
+# Enable or disable the plugin automatically when the server boots up
 enabled-on-startup: true
 
+# Sleep Delay in Ticks (20 ticks = 1 second)
+# 100 ticks = 5 seconds (Recommended: matches vanilla bed sleeping animation)
+sleep-delay-ticks: 100
+
 # Weather Clearing
-# Set to true to clear rain/thunder when skipping night
-# Set to false to only skip time without affecting weather
+# Set to true to clear rain and thunderstorms when skipping night
+# Set to false to only advance time to day without altering weather
 weather-clear: false
+
+# Disabled Worlds
+# List world names where OnePlayerSleep should NOT work (e.g. minigames, creative worlds)
+disabled-worlds: []
+#  - "minigames_world"
+#  - "creative_world"
 
 # Message Settings
 message-settings:
-  # Show message when night is skipped
+  # Show chat broadcast when night is skipped (Can also be toggled with /oneplayersleep msg on|off)
   show-night-skip: true
-  # Show messages for enable/disable commands
+
+  # Show feedback messages to sender when using enable/disable/msg/weather commands
   show-toggle-messages: true
-  # Send messages to console
+
+  # Print startup and shutdown banners in the server console
   console-logging: true
 
-# Messages (Use & for color codes)
+# Customizable Messages
 messages:
   night-skipped: "&6Night skipped by %player%"
   plugin-enabled: "&a%plugin% enabled!"
   plugin-disabled: "&c%plugin% disabled!"
+  msg-enabled: "&aNight skip broadcast messages are now &2enabled&a!"
+  msg-disabled: "&cNight skip broadcast messages are now &4disabled&c!"
+  weather-enabled: "&aWeather clearing is now &2enabled&a!"
+  weather-disabled: "&cWeather clearing is now &4disabled&c!"
   plugin-reloaded: "&a%plugin% configuration reloaded!"
   no-permission: "&cYou don't have permission to use this command."
-  status-enabled: "&6%plugin% is currently &aenabled&6."
-  status-disabled: "&6%plugin% is currently &cdisabled&6."
-  usage: "&6Usage: /oneplayersleep <enable|disable|reload>"
+  status-enabled: "&6%plugin% is currently &aenabled&6 (Messages: &a%messages_status%&6, Weather Clear: &a%weather_status%&6)."
+  status-disabled: "&6%plugin% is currently &cdisabled&6 (Messages: &c%messages_status%&6, Weather Clear: &c%weather_status%&6)."
+  usage: "&6Usage: /oneplayersleep <enable|disable|msg <on|off>|weather <on|off>|reload>"
 
-# Do not modify this
-config-version: 1
+# Config version tracker (Do not modify this)
+config-version: 2

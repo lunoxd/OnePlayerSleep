@@ -1,5 +1,5 @@
 name: OnePlayerSleep
-version: 4.0.1
+version: 4.1.0
 main: com.ops.OnePlayerSleep
 api-version: 1.16
 folia-supported: true
@@ -8,7 +8,7 @@ description: One player sleep plugin
 
 commands:
   oneplayersleep:
-    description: Toggle OnePlayerSleep on or off
+    description: Toggle OnePlayerSleep on or off or reload configuration
     permission: oneplayersleep.toggle
 
 permissions:

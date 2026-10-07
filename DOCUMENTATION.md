@@ -4,31 +4,32 @@
 
 **OnePlayerSleep** is a lightweight, optimized Minecraft plugin that allows a single player to skip the night by sleeping, instead of requiring all players to sleep. It uses runtime scheduler detection so it stays simple on Paper and safe on Folia.
 
-**Version:** 4.0.1  
-**Author:** heyWaffie  
-**License:** Not specified
+**Version:** 4.1.0  
+**Author:** heyWaffie / LunoX2  
+**License:** MIT
 
 ---
 
 ## ✨ Features
 
 - 🌙 **One Player Sleep** - Single player can skip night for everyone
+- ⛈️ **Daytime Thunderstorm Support** - Skips thunderstorms even during daytime
 - ⚡ **Optional Weather Clearing** - Choose whether to clear rain/thunder when skipping night
 - 🎨 **Fully Customizable** - Change plugin name, messages, and colors
-- 🔧 **Simple Commands** - Enable, disable, reload configuration
+- 🔧 **Simple Commands & Tab Completion** - Enable, disable, reload configuration with auto-complete
 - 🔐 **Permission System** - LuckPerms compatible with granular permissions
 - 📊 **Message Controls** - Toggle broadcasts, command messages, console logs
 - ✨ **Aesthetic UI** - Beautiful colored console messages on startup/shutdown
 - 🚀 **Optimized Performance** - Message and config caching for minimal overhead
-- 🌐 **Multi-Version Support** - Paper 1.16+ and Folia 1.21+
+- 🌐 **Multi-Version & Folia Support** - Spigot/Paper 1.16–1.21.x, 26.x, and Folia (Threaded Regions)
 
 ---
 
 ## 📦 Installation
 
-1. Download `OnePlayerSleep-3.6.2.jar`
+1. Download `OnePlayerSleep-4.1.0.jar`
 2. Place the JAR file in your server's `plugins/` folder
-3. Restart your server (or use `/reload confirm` at your own risk)
+3. Restart your server (or reload)
 4. Configuration file will be auto-generated at `plugins/OnePlayerSleep/config.yml`
 5. Customize settings and reload with `/oneplayersleep reload`
 
@@ -124,9 +125,11 @@ Use `&` followed by a color code:
 
 | Command | Description | Permission |
 |---------|-------------|------------|
-| `/oneplayersleep` | Show plugin status and usage | `oneplayersleep.toggle` |
+| `/oneplayersleep` | Show plugin status, message status, and weather status | `oneplayersleep.toggle` |
 | `/oneplayersleep enable` | Enable the plugin | `oneplayersleep.toggle` |
 | `/oneplayersleep disable` | Disable the plugin | `oneplayersleep.toggle` |
+| `/oneplayersleep msg <on\|off>` | Toggle night skip broadcast chat messages | `oneplayersleep.toggle` |
+| `/oneplayersleep weather <on\|off>` | Toggle weather clearing when night skips | `oneplayersleep.toggle` |
 | `/oneplayersleep reload` | Reload configuration | `oneplayersleep.reload` |
 
 ---
@@ -159,21 +162,23 @@ Grant all permissions:
 ---
 
 ## 🌍 Compatibility
-
+ 
 ### Minecraft Versions
 - ✅ **1.16.x** - Fully supported
 - ✅ **1.17.x** - Fully supported
 - ✅ **1.18.x** - Fully supported
 - ✅ **1.19.x** - Fully supported
 - ✅ **1.20.x** - Fully supported
-- ✅ **1.21.x** - Fully supported
-- ✅ **Future versions** - Should remain compatible
+- ✅ **1.21.x (Tricky Trials)** - Fully supported
+- ✅ **26.x (Wilderness Bound / Game Drops)** - Fully supported
+- ✅ **Future versions** - Retains forward compatibility via Spigot & Folia APIs
 
 ### Server Software
 - ✅ Spigot
 - ✅ Paper (Recommended)
 - ✅ Purpur
-- ✅ Any Spigot-based server
+- ✅ Folia (Full Threaded Region support via `GlobalRegionScheduler` & `EntityScheduler`)
+- ✅ Any Spigot/Paper-based fork
 
 ### Java Versions
 - ✅ Java 17 (Minimum required)
@@ -315,26 +320,28 @@ Optimizations include:
 ### Building from Source
 
 ```bash
-git clone <repository-url>
-cd mcpluggins
+git clone https://github.com/lunoxd/OnePlayerSleep.git
+cd OnePlayerSleep
 mvn clean package
 ```
 
-JAR will be generated at `builds/OnePlayerSleep-3.6.2.jar`
+JAR will be generated at `builds/OnePlayerSleep-4.1.0.jar`
 
 ### Project Structure
 
 ```
-mcpluggins/
+OnePlayerSleep/
 ├── src/
 │   └── main/
 │       ├── java/
-│       │   └── com/ops/OnePlayerSleep.java
+│       │   └── com/ops/
+│       │       ├── OnePlayerSleep.java
+│       │       └── SchedulerAdapter.java
 │       └── resources/
 │           ├── config.yml
 │           └── plugin.yml
 ├── builds/
-│   └── OnePlayerSleep-3.6.2.jar
+│   └── OnePlayerSleep-4.1.0.jar
 ├── pom.xml
 └── README.md
 ```
@@ -343,25 +350,27 @@ mcpluggins/
 
 ## 📝 Changelog
 
-### Version 3.6.2 (Current)
+### Version 4.1.0 (Current)
+- Fixed Folia multithreading incompatibilities using dedicated `SchedulerAdapter` (`GlobalRegionScheduler` + `EntityScheduler`)
+- Added support for Minecraft 1.16 through 1.21.x and 26.x
+- Added sleeping during daytime thunderstorms support
+- Added tab-completion for `/oneplayersleep <enable|disable|reload>`
+- Dynamic versioning and platform detection in startup/shutdown banners
+
+### Version 4.0.1
+- Restored vanilla sleep timing (100 ticks / ~5 seconds)
+- Maintained single player requirement with natural animation
+
+### Version 3.6.2
 - Renamed `wc` to `weather-clear` for clarity
 - Improved documentation
-- Updated console messages
-
-### Version 3.2.6
-- Added optional weather clearing feature
-- Weather clearing now disabled by default
-- Config option: `weather-clear: false`
-
-### Version 3.2
-- Added reload command
-- Optimized performance with caching
-- Added message visibility controls
-- Improved multi-version compatibility
 
 ---
 
 ## ❓ FAQ
+
+**Q: Does this work on Folia?**  
+A: Yes! Version 4.1.0+ includes full multithreaded Folia support via `GlobalRegionScheduler` and `EntityScheduler` adapters.
 
 **Q: Does this work with sleeping percentage plugins?**  
 A: This plugin bypasses the vanilla sleep percentage requirement entirely. It may conflict with other sleep plugins.
@@ -373,7 +382,7 @@ A: Not currently. This plugin is designed specifically for single-player sleep.
 A: No, sleeping only works in the Overworld (normal world) as per Minecraft mechanics.
 
 **Q: Will it work on older versions like 1.12?**  
-A: No, minimum version is 1.16 due to API requirements.
+A: No, minimum version is 1.16 due to modern API requirements.
 
 **Q: Can I disable the startup messages?**  
 A: Yes, set `message-settings.console-logging: false` in config.
@@ -395,10 +404,10 @@ For issues, suggestions, or questions:
 
 ## 📜 License
 
-Not specified. Please contact the author for licensing information.
+MIT License.
 
 ---
 
-**Last Updated:** January 1, 2026  
-**Documentation Version:** 1.0  
-**Plugin Version:** 4.0.1
+**Last Updated:** October 2026  
+**Documentation Version:** 2.0  
+**Plugin Version:** 4.1.0

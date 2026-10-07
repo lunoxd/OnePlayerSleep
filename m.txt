@@ -1,0 +1,65 @@
+# OnePlayerSleep
+
+> **v4.1.0 · October 2026 · MIT · LunoX2**
+
+A lightweight Minecraft plugin that lets **one player skip the night for the entire server**.
+
+![Thanks For Downloading](https://cdn.modrinth.com/data/cached_images/16b475ea1caace1b81f7ce360fe5b9396d9a0ec9_0.webp)
+
+## Features
+
+- One-player sleep with vanilla sleep animation
+- Optional weather clearing & daytime thunderstorm sleep support
+- Toggle broadcast messages and weather clearing via commands
+- Custom messages, placeholders (%player%, %displayname%, %world%) & plugin name
+- Full multi-threaded Folia support + Paper, Purpur, and Spigot
+- Accurate in-game day counter advancement & phantom/insomnia reset
+- Configurable sleep delay and disabled worlds filter
+- LuckPerms support with tab-completion
+- Zero lag with cached configuration & optimized schedulers
+
+## Installation
+
+1. Download `OnePlayerSleep-4.1.0.jar`
+2. Put it in `plugins/`
+3. Restart the server
+4. Edit `plugins/OnePlayerSleep/config.yml` (optional)
+5. Run `/oneplayersleep reload`
+
+## Commands
+
+| Command | Description | Permission |
+|---|---|---|
+| `/oneplayersleep` | Show plugin status & help | `oneplayersleep.toggle` |
+| `/oneplayersleep enable` | Enable the plugin | `oneplayersleep.toggle` |
+| `/oneplayersleep disable` | Disable the plugin | `oneplayersleep.toggle` |
+| `/oneplayersleep msg <on\|off>` | Toggle chat broadcast messages | `oneplayersleep.toggle` |
+| `/oneplayersleep weather <on\|off>` | Toggle weather clearing on skip | `oneplayersleep.toggle` |
+| `/oneplayersleep reload` | Reload configuration | `oneplayersleep.reload` |
+
+## Compatibility
+
+**Minecraft:** 1.16 – 1.21+ & 26.x  
+**Servers:** Folia · Paper · Purpur · Spigot  
+**Java:** 17+ · 21 LTS recommended
+
+> **Recommended:** Folia / Paper + Java 21
+
+## Performance
+
+Designed for negligible overhead with native multi-threaded Folia region schedulers and cached configuration.
+
+## Permissions
+
+- `oneplayersleep.toggle` — Enable/disable, toggle messages/weather, and view status
+- `oneplayersleep.reload` — Reload config
+- `oneplayersleep.*` — All permissions (Default: OP)
+
+## Notes
+
+- Works only in the Overworld.
+- Bypasses vanilla sleep-percentage requirements.
+- Automatically resets player insomnia to prevent phantom attacks.
+- Accurately increments in-game world day count.
+- May conflict with other sleep plugins.
+- Java 17+ required.

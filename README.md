@@ -5,7 +5,7 @@
 </h2>
 
 <p>
-  <img src="https://cdn.discordapp.com/emojis/1510275681597001778.webp?size=64" width="18"> <strong>Version:</strong> 4.0.1 (8 May 2026)
+  <img src="https://cdn.discordapp.com/emojis/1510275681597001778.webp?size=64" width="18"> <strong>Version:</strong> 4.1.0 (October 2026)
   <img src="https://cdn.discordapp.com/emojis/1510275681597001778.webp?size=64" width="18"> <strong>Author:</strong> LunoX2
   <img src="https://cdn.discordapp.com/emojis/1510275681597001778.webp?size=64" width="18"> <strong>License:</strong> MIT
 </p>
@@ -20,7 +20,7 @@
   <img src="https://cdn.discordapp.com/emojis/1486030958783234228.webp?size=64" width="18"> No Setup Needed<br>
   <img src="https://cdn.discordapp.com/emojis/1486030993310879865.webp?size=64" width="18"> Fully customizable messages<br>
   <img src="https://cdn.discordapp.com/emojis/1486031032145809479.webp?size=64" width="18"> Lightweight and optimized<br>
-  <img src="https://cdn.discordapp.com/emojis/1486031143202586824.webp?size=64" width="18"> Supports Minecraft 1.16–1.21+
+  <img src="https://cdn.discordapp.com/emojis/1486031143202586824.webp?size=64" width="18"> Supports Minecraft 1.16–1.21+ & 26.x
 </p>
 
 <h2>
